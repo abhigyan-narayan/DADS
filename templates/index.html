@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="container mt-3">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for card in cards %}
+        <div class="col">
+            <a href="/{{ card.link }}" style="text-decoration: none; color: inherit;">
+                <div class="card h-100">
+                    <img src="{{ url_for('static', filename=card.img) }}" class="card-img-top" style="height: 280px; object-fit: cover; width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ card.title }}</h5>
+                        <p class="card-text">{{ card.content }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}

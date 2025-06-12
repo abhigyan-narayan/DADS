@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% set show_navbar = False %}
+{% block body %}
+
+<div style="display: flex; flex-direction: column; align-items: center; margin-top: 30px;">
+    <h1 style="padding-bottom: 20px; margin: 0px;">Edit your config.json</h1>
+    <form id="configForm" style="display: flex; flex-direction: column; align-items: center;">
+        <input type="password" id="password" name="password" placeholder="Enter password" style="margin-bottom: 15px; width: 300px; padding: 8px;" required>
+        <textarea name="config" id="config" rows="20" cols="80" style="margin-bottom: 15px;">{{ config }}</textarea><br>
+        <button type="submit" style="width: 120px;">Save</button>
+    </form>
+    <div id="result" style="margin-top: 15px; min-height: 32px;"></div>
+</div>
+
+<script>
+    function showMessage(message, type) {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerText = message;
+        resultDiv.style.padding = "10px 20px";
+        resultDiv.style.borderRadius = "6px";
+        resultDiv.style.fontWeight = "bold";
+        resultDiv.style.textAlign = "center";
+        if (type === "success") {
+            resultDiv.style.background = "#e6ffed";
+            resultDiv.style.color = "#207227";
+            resultDiv.style.border = "1px solid #b7ebc6";
+        } else if (type === "error") {
+            resultDiv.style.background = "#ffeaea";
+            resultDiv.style.color = "#a94442";
+            resultDiv.style.border = "1px solid #f5c6cb";
+        } else {
+            resultDiv.style.background = "";
+            resultDiv.style.color = "";
+            resultDiv.style.border = "";
+        }
+    }
+
+    document.getElementById('configForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const configText = document.getElementById('config').value;
+        const password = document.getElementById('password').value;
+        let jsonData;
+        try {
+            jsonData = JSON.parse(configText);
+        } catch (err) {
+            showMessage("Invalid JSON: " + err, "error");
+            return;
+        }
+        const response = await fetch('/edit_config', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({config: jsonData, password: password})
+        });
+        let resultText;
+        try {
+            const result = await response.json();
+            if (result.status === "success") {
+                showMessage("Config saved successfully!", "success");
+            } else {
+                showMessage(result.message || "Error saving config.", "error");
+            }
+        } catch {
+            resultText = await response.text();
+            showMessage(resultText, "error");
+        }
+    }
+</script>
+
+{% endblock body %}

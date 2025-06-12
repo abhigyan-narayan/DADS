@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>DADS</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" />
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"
+        type="text/css" />
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
+        rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Navigation-->
+    {% if show_navbar is not defined or show_navbar %}
+    <nav class="navbar bg-body-tertiary" id="mainNav">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="DADS" height="50">
+            </a>
+            Roadmap for Data Science
+        </div>
+    </nav>
+    {% endif %}
+
+    {% block body %} {% endblock body %}
+
+    <!-- Footer-->
+    <footer>
+                    <div class="small text-center fst-italic">abhigyannarayan100@gmail.com</div>
+    </footer>
+</body>
+
+</html>

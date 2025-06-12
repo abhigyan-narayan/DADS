@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% set show_navbar = False %}
+{% block body %}
+
+<div style="display: flex; align-items: center; justify-content: space-between; margin: 15px 20px 15px 20px;">
+    <!-- Left: Back button and Title -->
+    <div style="display: flex; align-items: center; gap: 18px;">
+        <a href="javascript:history.back()" title="Back" class="icon-btn">
+            <svg width="18" height="18" viewBox="0 0 22 22" fill="none">
+                <path d="M14.5 18L8.5 12L14.5 6"
+                      stroke="#222" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+        <h1 style="margin:0; font-size:2rem; color:#fff;">{{ title }}</h1>
+    </div>
+    <!-- Right: Home button (matches video.html style) -->
+    <a href="{{ url_for('home') }}" title="Home" class="icon-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M3 12L12 3L21 12" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5 12V21H19V12" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+</div>
+
+{% if page == "quant" %}
+    <div style="margin: 24px 30px;">
+        <a href="https://drive.google.com/drive/folders/1gemOcwdfzbDRyfaDdBrRn3YqLbGdHpBO?usp=drive_link" target="_blank" style="color:#4af; font-weight:bold;">
+            Resources for practice!
+        </a>
+    </div>
+{% endif %}
+
+{% if page == "resources" %}
+    <div style="margin: 24px 30px;">
+        <a href="https://drive.google.com/drive/folders/1_LKh33ImMi5R9JSQAMq-_ILVQc_9ZhzE?usp=sharing" target="_blank" style="color:#4af; font-weight:bold;">
+            Click here for additional resources!
+        </a>
+    </div>
+{% endif %}
+
+{% if video_details %}
+<div style="display:flex;flex-direction:column;gap:32px;align-items:flex-start;margin-top:20px;">
+    {% for video in video_details %}
+    <div style="display:flex;align-items:center;gap:20px;width:100%;margin-left:20px;">
+        <span style="font-size:1.2em;margin-right:10px">{{ loop.index }}.</span>
+        <a href="{{ url_for('video', page=page, video_id=video.video_id) }}" 
+            style="display:flex;align-items:center;text-decoration:none;color:inherit;">
+            <img src="https://img.youtube.com/vi/{{ video.video_id }}/hqdefault.jpg" alt="{{ video.title }}"
+                style="width:150px;height:100px;border-radius:8px" />
+            <b style="margin-left:20px">{{ video.title }}</b>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p style="margin-left: 30px;">No videos available for this topic.</p>
+{% endif %}
+
+{% endblock body %}

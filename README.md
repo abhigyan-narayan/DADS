@@ -5,4 +5,4 @@ to edit the config.json
 to upload image in static directory (only png and jpg allowed)
 
 /update
-to update the playlists
+to get a json file with updated playlists which can be later used to edit_config

@@ -3,6 +3,8 @@ import re
 import json
 import os
 from dotenv import load_dotenv
+import tempfile
+from flask import send_file
 
 load_dotenv()
 API_KEY = os.environ.get("API_KEY")
@@ -76,10 +78,12 @@ def update_video_ids():
 
     config["video_ids"] = video_ids
 
-    with open(CONFIG_PATH, "w") as f:
-        json.dump(config, f, indent=2)
+    # Write to a temporary file for download
+    temp = tempfile.NamedTemporaryFile(delete=False, suffix=".json", mode="w")
+    json.dump(config, temp, indent=2)
+    temp.close()
 
-    return '<h1>Updated all the playlists.</h1'
+    return send_file(temp.name, as_attachment=True, download_name="updated_config.json", mimetype="application/json")
 
 
 def youtube_info_batch_with_links(video_ids):
